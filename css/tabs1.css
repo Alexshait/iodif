@@ -1,0 +1,10 @@
+.vtabs {
+  display: flex;
+  height: fit-content;
+  flex-direction: column;
+}
+
+.vtabs > div {
+  height: 100%;
+}
+
