@@ -1,6 +1,6 @@
 <br/> 
 <form method="post">
-	<div style="width: 250">
+	<div style="width: 400">
 		Username: <input style="float: right" type="text" name="user" /> <br /> 
 <br/> 
 		Password: <input style="float: right" type="password" name="pass" /> <br />
