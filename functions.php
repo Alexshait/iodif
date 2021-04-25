@@ -134,11 +134,11 @@
     }
     $arrStr = explode("\n", $accounts);
     $ret = '';
-    for($i = 0; $i < count($arrStr) && ($ret == ''); $i++) {
-      $s1 = trim($arrStr[$i]);
+    for($i = 0; $i < count($arrStr) && ($ret == ''); $i++) {       
+      $s1 = trim($arrStr[$i]); 
       $arrS2 = explode(":", $s1);
       if(count($arrS2 > 0)) {
-        if($arrS2[0] === $userUser)
+        if($arrS2[0] == $userUser)
           $ret = $arrS2[1];
       }
     } 

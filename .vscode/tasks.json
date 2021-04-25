@@ -1,0 +1,17 @@
+{   
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Copy code",
+        "type": "shell",
+        "windows": {
+          "command": ".\\copy_code.cmd"
+        },
+        "group": "test",
+        "presentation": {
+          "reveal": "always",
+          "panel": "new",
+        }
+      }
+    ]
+  }

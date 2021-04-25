@@ -22,7 +22,6 @@ if($_POST['submit']){
   if($pass != '') {
     $pass = FindUserInFile($userUser, '/etc/shadow');
     if($pass != '') {
-      //echo $userUser." is OK!"."<\br>";
         $arrPwd = explode("$", $pass);
         $s1 = $arrPwd[1];
         $salt = $arrPwd[2];
