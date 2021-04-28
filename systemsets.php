@@ -1,6 +1,6 @@
 <?php
-$in_json = shell_exec("/usr/local/sbin/iod -r /usr/local/sbin/iod.conf all");
-print_r($in_json);
+// $in_json = shell_exec("/usr/local/sbin/iod -r /usr/local/sbin/iod.conf all");
+// print_r($in_json);
 /*********************************/ 
 $curyear = date("F");
 $cmn = date("m");
