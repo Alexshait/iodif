@@ -16,37 +16,34 @@ require_once dirname(__FILE__).'/functions.php';
 
 if($_POST['submit']){
   $pass = '';
-  $userUser = $_POST['user'];
-  if(isset($userUser) && $userUser !== '')
-    $pass = FindUserInFile($userUser, '/etc/passwd');
-  if($pass != '') {
-    $pass = FindUserInFile($userUser, '/etc/shadow');
-    if($pass != '') {
-        $arrPwd = explode("$", $pass);
-        $s1 = $arrPwd[1];
-        $salt = $arrPwd[2];
-        $hashed = crypt($_POST['pass'], substr($pass, 0, strlen($s1) + strlen($salt) + 3));
-        //$pwdhash = $arrPwd[3];
-        //if (password_verify($hash, $pwdhash))
-        if ($pass == $hashed)
-        {
-           echo '<p>OK!</p>';
-           $_SESSION['admin'] = $userUser;
-           header("Location: index.php");
-           exit;
-        }
-        else
-          echo '<p>Wrong password!</p>';
+  $userName = $_POST['user'];
+  if($userName !== '') {
+    $json_blocks_str = RequestConfBlock("shadow");
+    $json_obj = json_decode(substr($json_blocks_str, 0, strlen($json_blocks_str)-1));
+    $pass = UserIdentity($json_obj->{'shadow'}, $userName);
+    print_r($pass);echo "<br />";
+    if($pass != null) {
+      $arrPwd = explode("$", $pass);
+      $s1 = $arrPwd[1];
+      $salt = $arrPwd[2];
+      $hashed = crypt($_POST['pass'], substr($pass, 0, strlen($s1) + strlen($salt) + 3));
+      if ($pass == $hashed)
+      {
+         echo '<p>OK!</p>';
+         $_SESSION['admin'] = $userName;
+         header("Location: index.php");
+         exit;
+      }
+      else
+        echo '<p>Wrong password!</p>';
     }
-    else
-      echo '<p>Wrong login ('.$userUser.')!</p>';
   }
   else
-    echo '<p>The login ('.$userUser.') is absent!</p>';
+    echo '<p>The login or password is not correct!</p>';
 }
 /*
 if($_POST['submit']){
- if($users == $userUser && $pass == md5($_POST['pass']))
+ if($users == $userName && $pass == md5($_POST['pass']))
 {
  $_SESSION['admin'] = $users;
  header("Location: index.php");

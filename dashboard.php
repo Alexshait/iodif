@@ -132,7 +132,7 @@
     </table>
 		</div>
   <div id="content-2">
-    <div style="margins: auto; padding-left: 50px; text-align: left; position: absolute; top: 0; height: 100%; width: fit-content; overflow:scroll;overflow-x: hidden;" id="procinfo">
+    <div style="margin: auto; padding-left: 50px; text-align: left; position: absolute; top: 0; height: 100%; width: fit-content; overflow:scroll;overflow-x: hidden;" id="procinfo">
             <?php echo getprocinfo(); ?>
           </div>
   </div>

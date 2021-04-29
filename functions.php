@@ -1,4 +1,8 @@
 <?php
+
+$write_pipe = "/tmp/iodwr";
+$read_pipe = "/tmp/iodrw";
+
 function arr2ini(array $a, array $parent = array())
 {
   $out = '';
@@ -120,6 +124,22 @@ function getprocinfo()
   return $retstr;
 }
 
+/** Читает содержимое $filename и ищет ключевое слово $userUser. Возвращает строку файла shadow без имени пользователя.
+ */
+function UserIdentity($user_arr, $userName)
+{
+  if(isset($user_arr) && $user_arr !== '') {
+    foreach ($user_arr as &$elem) {
+      $arrS2 = explode(":", $elem);
+      if (count($arrS2) > 0) {
+        if ($arrS2[0] == $userName)
+          return $arrS2[1];
+      }
+    }
+    return null;
+  }
+}
+
 /** Читает содержимое $filename и ищет ключевое слово $userUser. Возвращает массив из строки файла.
  */
 function FindUserInFile($userUser, $filename)
@@ -141,6 +161,15 @@ function FindUserInFile($userUser, $filename)
   return $ret;
 }
 
+/** Отправляет команду на iodc.d на выдачу блока информации $BlockName. Возвращает сроковое содержимое ответа в json.
+ */
+function RequestConfBlock($BlockName)
+{
+  global $write_pipe, $read_pipe;
+  exec("echo " . $BlockName . " > " . $write_pipe);
+  return read_pipe($read_pipe);
+}
+
 /** Читает содержимое pipe-файла $filename и возвращает содержимое json-выражение  в массив */
 function read_pipe($filename)
 {
@@ -155,3 +184,4 @@ function read_pipe($filename)
   return $read;
 }
 ?>
+
