@@ -183,5 +183,44 @@ function read_pipe($filename)
   fclose($handle);
   return $read;
 }
+
+/** Читает содержимое pipe-файла $filename и возвращает содержимое json-выражение  в массив */
+function archOS()
+{
+  $cpu_str = php_uname('m'); // тип архитектуры цпу
+  if ($cpu_str == "aarch64") {
+    return " ";
+  }
+  elseif ($cpu_str == "i686") {
+    return ":";
+  }
+  else {
+    return " ";
+  }
+}
+
+/** Возвращает true, если формат IP адреса корректен. vStr - IP адрес или маска? */
+function IpAddressIsCorrect($vStr, $vFirstOctet)
+{
+  If (strpos($vStr, ",") > 0) return false; // запятые недопустимы
+  $OctetsArray = explode(".", $vStr);
+  // print_r(count($OctetsArray)); echo "<br />";
+  If (count($OctetsArray) == 4) {
+    For ($i = 0; $i<= 3; $i++) {
+      // print_r($OctetsArray[$i]); echo "<br />";
+      // print_r(true); echo "<br />";
+      If (!is_numeric($OctetsArray[$i])) {
+        return False;
+      }     
+      // print_r($OctetsArray[0] >= $vFirstOctet && $OctetsArray[$i] >= 0 && $OctetsArray[$i] <= 255); echo "<br />";   
+      If (!($OctetsArray[0] >= $vFirstOctet && $OctetsArray[$i] >= 0 && $OctetsArray[$i] <= 255)) {
+        return false;
+      } 
+    }
+    return true;
+  } else {
+    return False;
+  }         
+}
 ?>
 

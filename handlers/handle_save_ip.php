@@ -1,21 +1,20 @@
 <?php
 require '../functions.php';
-
-print_r($_GET); 
-echo "<br />";
-$ip_arr = array(
-    "ip" => json_encode($_GET ));
-$json_str = "#" . json_encode($ip_arr);
-print_r($json_str);echo "<br />";
-
-$json_str = RequestConfBlock("shadow");
-// exec("echo shadow > " . $write_pipe);
-
-
-print_r($json_str);
-echo "<br />";
-$json_arr = json_decode(substr($json_str, 0, strlen($json_str)-1));
-print_r($json_arr);
-
-
+// print_r(IpAddressIsCorrect($_GET['address'],1)); echo "<br />";
+if (!IpAddressIsCorrect($_GET['address'],1)) {
+    $message = "IP address is not correct!";
+    echo "<script type='text/javascript'>alert('$message');  </script>"; //window.history.go(-1);
+} elseif (!IpAddressIsCorrect($_GET['netmask'],1)) {
+    $message = "Netmask is not correct!";
+    echo "<script type='text/javascript'>alert('$message');  </script>";
+} elseif (!IpAddressIsCorrect($_GET['gateway'],1)) {
+    $message = "Gateway address is not correct!";
+    echo "<script type='text/javascript'>alert('$message');  </script>";
+} else {
+    $ip_arr = array(
+        "ip" => json_encode($_GET));
+    $json_str = "#" . json_encode($ip_arr);
+}
+die;
+//header("Location: {$_SERVER["HTTP_REFERER"]}");
 ?>

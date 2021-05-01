@@ -16,3 +16,20 @@
 "timezone":["Europe/Moscow"],
 "users":["alexey:x:1000:1000::/home/alexey:","pupkin:x:1001:1001::/home/pupkin:/bin/sh",
 "georg:x:1002:1001:werwerw:/home/georg:/bin/sh"],"wpa":{"psk":"=b19095b5cd9feea619d269eadc8e928bdc9b748b6a21ac58893581092350a177","ssid":"=\"MGDMKT-2.4\""}}
+
+Debian Jessey i686:
+{"commands":{"df -h | grep /dev/mmcblk2p1":"null","free -m | grep Mem":"Mem:          1007        213        793         10         14    ",
+"ifconfig eth0 | grep 'inet '":"inet addr:192.168.8.128  Bcast:192.168.8.255  Mask:255.255.255.0","ifconfig eth0 | grep 'inet6 '":"inet6 addr: fe80::20c:29ff:feb7:616/64 Scope:Link",
+"ifconfig wlan0 | grep 'inet '":"null","iwgetid":"null","rfkill list 2 | grep 'Soft' | cut -d: -f2":"null"},
+"dns":["domain localhost","search localhost","nameserver 8.8.8.8","nameserver ","nameserver "],
+"groups":["Debian-exim:x:109:","mlocate:x:110:","alexey:x:1000:","pupkin:x:1001:","oidgroup:x:1002:"],
+"host":["debian2"],
+"ip":{"address":"192.168.0.23","gateway":"192.168.0.1","iface eth0 inet":"static","netmask":"255.255.255.0"},
+"ip6":{"address":"2001:db8:e0ra:iead","gateway":"2001:db8:iead:ed:beef","iface eth0 inet6":"static","netmask":"24"},
+"ipw":{"address":"null","gateway":"null","iface wlan0 inet":"dhcp","netmask":"null"},
+"ntpserv":{"NTP=":"null"},
+"routes":["ip route add 0.0.0.0/0 via 192.168.0.1 dev wlan0","ip route add 192.168.2.0/24 via 192.168.0.254 dev eth0","ip route add 10.0.0.0/24 via 192.168.0.12 dev eth0","ip route add 10.0.1.0/24 via 192.168.0.8 dev eth0","ip route add 10.0.2.0/24 via 192.168.0.9 dev eth0"],
+"shadow":["Debian-exim:!:18341:0:99999:7:::","statd:*:18341:0:99999:7:::","alexey:$6$oGrTJMGl$QjUve3oLSftUNIaHPqx/9ipLFganZ8lVih1O7CnTEvsTvyOgJJKQHzpss7F6l8qdS.agf.pSelLTIj2yin1jJ/:18341:0:99999:7:::"],
+"syscmd":["rescanWlan"],"timezone":["Europe/Moscow"],
+"users":["Debian-exim:x:104:109::/var/spool/exim4:/bin/false","statd:x:105:65534::/var/lib/nfs:/bin/false","alexey:x:1000:1000:alexey,,,:/home/alexey:/bin/bash"],
+"wpa":{"psk":"=7c672c2ef0eb6af7871847b94af19ee36cbc0cd4e5e33752af4f9204733fec51","ssid":"=\"AndroidAP\""}}^
