@@ -56,3 +56,16 @@ else echo '<p>Wrong login or password!</p>';
 }
 */
 ?>  
+
+
+Делал АС - установка времени
+$curyear = date("F");
+$cmn = date("m");
+$months = [];
+$sls = [];
+for ($i = 1; $i < 13; $i++) {
+  $months[] = date("F", mktime(0, 0, 0, $i, 1, 2000));
+  $sls[] = ($i == (int)$cmn) ? ' selected="selected"' : '';
+}
+$nmbdays = cal_days_in_month(1, (int)$cmn, (int)$curyear); // 1- CAL_GREGORIAN
+//echo '$nmbdays = '.$nmbdays;

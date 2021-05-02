@@ -1,8 +1,10 @@
 <?php
 // require 'functions.php';
+/******************************** NETWORK ***************************************/
 $confBlocks_str = RequestConfBlock("all");
 $confBlocks_obj = json_decode(substr($confBlocks_str, 0, strlen($confBlocks_str)-1));
-//print_r(explode(" ", $confBlocks_obj->{"dns"}[0])); echo "<br />";
+//print_r(explode(" ", $confBlocks_obj->{"ip"})); echo "<br />";
+//print_r($confBlocks_obj); echo "<br />";
 $ip_dhcp = $confBlocks_obj->{"ip"}->{"iface eth0 inet"};
 $ip_addr = preg_split("/[\s:]+/", $confBlocks_obj->{"commands"}->{"ifconfig eth0 | grep 'inet '"});
 $ip_gw = $confBlocks_obj->{"ip"}->{"gateway"};
@@ -15,18 +17,7 @@ $ip6_addr = preg_split("/ /", $confBlocks_obj->{"commands"}->{"ifconfig eth0 | g
 // print_r($ip6_addr); echo "<br />";
 $ip6_mask = $confBlocks_obj->{"ip6"}->{"netmask"};
 $ip6_gw = $confBlocks_obj->{"ip6"}->{"gateway"};
-/*********************************/ 
-$curyear = date("F");
-$cmn = date("m");
-$months = [];
-$sls = [];
-for ($i = 1; $i < 13; $i++) {
-  $months[] = date("F", mktime(0, 0, 0, $i, 1, 2000));
-  $sls[] = ($i == (int)$cmn) ? ' selected="selected"' : '';
-}
-$nmbdays = cal_days_in_month(1, (int)$cmn, (int)$curyear); // 1- CAL_GREGORIAN
-//echo '$nmbdays = '.$nmbdays;
-/**************************************************************************************** */
+/**************** SUBMIT NETWORK *********************************/
 if(isset($_POST['submit_ip'])) {
   require_once dirname(__FILE__).'/functions.php';
 print_r(IpAddressIsCorrect($_GET['address'],1)); echo "<br />";
@@ -43,7 +34,7 @@ print_r(IpAddressIsCorrect($_GET['address'],1)); echo "<br />";
       $ip_arr = array(
         "ip" => json_encode($_POST));
       $json_str = "#" . json_encode($ip_arr);
-      // print_r($json_str);
+      print_r($json_str);
 
   }
 }
@@ -52,10 +43,30 @@ if(isset($_POST['submit_ip6'])) {
   $ip6_arr = array(
     "ip6" => json_encode($_POST));
   $json_str = "#" . json_encode($ip6_arr);
-}
-/***************************************************************************************** */
-?>
+  }
+/****************************************** TIME *************************************************/ 
+$region_timezone_arr = explode('/', $confBlocks_obj->{"timezone"}[0]);
+$zone = $region_timezone_arr[0];
+$timezone = $region_timezone_arr[1];
+//$timezone = "Europe";
+$ntpserv =  $confBlocks_obj->{"ntpserv"}->{"NTP="};
 
+/************************ SUBMIT TIME ***************************** */
+
+if(isset($_POST['btn_save_zone'])) { // задаем timezone на основе выбора региона
+  $timezone = $_POST['select_zone'];
+}
+if(isset($_POST['time_submit'])) {
+  $zone = $_POST['select_zone'];
+  $timezone = $_POST['select_timezone'];
+  $time_str = "{\"timezone\":{[\" $zone / $timezone \"]}";
+  $ntpserv = $_POST['NTP='];
+  $ntp_str = "{\"ntpserv\":{\"NTP=\":\" $ntpserv \"}";
+  $json_str = "#" . $ntp_str . "," . $time_str;
+  // print_r($json_str); echo "<br />";
+}
+?>
+<!----------------------------------------- HTML ------------------------------------------------ -->
 <div class="vtabs">
   <div id="content0-1">
     <form method="post" action="">
@@ -66,28 +77,28 @@ if(isset($_POST['submit_ip6'])) {
           <input type="radio" name="iface eth0 inet" id="DHCP" value="dhcp" <?php echo ($ip_dhcp == 'DHCP') ?  "checked" : "" ;?>> 
           Static: <input type="radio" name="iface eth0 inet" id="DHCP" value="static" <?php echo ($ip_dhcp == 'static') ?  "checked" : "" ;?>> <Br> <br>
         </div>
-        <div class="ip">
+        <div class="input_block">
           <!-- <label class="lbl_radio" for="address">IP address: </label> -->
           <a>    IP address: </a>
           <input type="text" name="address" id="address" value=<?php echo $ip_addr[2]; ?>><br><br>
         </div>
-        <div class="ip">
+        <div class="input_block">
           <a    >Mask: </a>
           <input type="text" name="netmask" id="netmask" value=<?php  echo $ip_addr[6]; ?>><br><br>
         </div>
-        <div class="ip">
+        <div class="input_block">
           <a>    Gateway: </a>
           <input type="text" name="gateway" id="gateway" value=<?php echo  $ip_gw; ?>><br><br>
         </div>
-        <div class="ip">
+        <div class="input_block">
           <a>    DNS: </a>
           <input type="text" name="dns1" id="dns1" value=<?php  echo $dns1[1]; ?>><br><br>
         </div>
-        <div class="ip">
+        <div class="input_block">
           <a>    DNS: </a>
           <input type="text" name="dns2" id="dns2" value=<?php  echo $dns2[1]; ?>><br><br>
         </div>
-        <input type="submit" id="btn_save" values="Save" name="submit_ip" onclick="return confirm('Do you want to save changes?')"> <br><br>
+        <input type="submit" id="btn_save" value="Save" name="submit_ip" onclick="return confirm('Do you want to save changes?')"> <br><br>
         <hr>
       </div>
     </form>
@@ -100,59 +111,80 @@ if(isset($_POST['submit_ip6'])) {
           Static: <input type="radio" name="iface eth0 inet6" id="DHCP" value="static" <?php echo ($ip6_dhcp == 'static') ?  "checked" : "" ;?>/> <Br> <br>
         </div>
 
-        <div class="ip">
+        <div class="input_block">
           <a>IP address IPv6: </a>
           <input type="text" name="address" id="address" value=<?php echo $ip6_addr[2]; ?>><br><br>
         </div>
-        <div class="ip">
+        <div class="input_block">
           <a>Mask IPv6: </a>
           <input type="text" name="netmask" id="netmask" value=<?php echo $ip6_mask; ?>><br><br>
         </div>
-        <div class="ip">
+        <div class="input_block">
           <a>Gateway IPv6: </a>
           <input type="text" name="gateway" id="gateway" value=<?php echo $ip6_gw; ?>><br><br>
         </div>
-        <!-- <div class="ip">
+        <!-- <div class="input_block">
           <a>DNS IPv6: </a>
           <input type="text" name="dns1" id="dns1" /><br><br>
         </div>
-        <div class="ip">
+        <div class="input_block">
           <a>DNS IPv6: </a>
           <input type="text" name="dns2" id="dns2" /><br><br>
         </div> -->
-        <input type="submit" id="btn_save_6" values="Save" name="submit_ip6" onclick="return confirm('Do you want to save changes?')"><br><br>
+        <input type="submit" id="btn_save_6" value="Save" name="submit_ip6" onclick="return confirm('Do you want to save changes?')"><br><br>
         <hr>
       </div>
     </form>
   </div>
-  <!-- Меню TIME ******************************************** -->
   <div id="content0-2">
+    Contents 2...
+  </div>
+  <!------------------- Меню TIME ----------------------- -->
+  <div id="content0-3">
     <form method="post" action="">
       <div id="frm_main">
-        <div class="ip">
-          <a>    NTP servers separated by comma: </a>
-          <input type="text" name="ntp_server" id="ntp_server" value=<?php echo $ntp_server[0]; ?>><br><br>
+        <div class="input_block">
+          <a>NTP servers separated by comma: </a>
+          <input type="text" name="NTP=" id="NTP=" value=<?php echo $ntpserv; ?>><br><br>
         </div>
-        <div class="ip">
-          <a>    Region: </a>
-          <input type="text" name="ntp_server" id="ntp_server" value=<?php echo $ntp_server[0]; ?>><br><br>
-        </div>
-        <dev class="ip">
-          <select class="names" name="text_hname">
-            <option value="Archer">Archer</option>
-            <option value="Barbarian">Barbarian</option>
-            <option value="Balloon">Balloon</option>
-            <option value="Witch">Witch</option>
-            <option value="Spirit">Spirit</option>
-            <option value="Hog_Rider">Hog Rider</option>
-            <option value="Minion">Minion</option>
-          </select>
+        <dev class="input_block">
+
+          <form method="post" action="">   <!--  FORM ZONE -->
+            <a>Region: </a>
+            <?php
+              $filename = "./zones/zones";
+              $eachlines = file($filename, FILE_IGNORE_NEW_LINES);
+              echo '<select name="select_zone" id="select_zone">'; // SELECT ZONE
+              foreach($eachlines as $lines){
+                $selected = '';
+                if ($lines == $zone) $selected = "selected";
+                echo "<option $selected> {$lines} </option>";
+              }
+              echo '</select>';
+            ?>
+            <input type="submit" id="btn_save_zone" value="Set zone" name="btn_save_zone"><br><br>
+          </form>
+
         </dev>
+        <dev class="input_block">
+          <a>Time zone: </a>
+            <?php
+              $filename = "./zones/" . $zone;
+              $eachlines = file($filename, FILE_IGNORE_NEW_LINES);
+              echo '<select name="select_timezone" id="select_timezone">'; // SELECT TIMEZONE
+              foreach($eachlines as $lines){
+                $selected = '';
+                if ($lines == $timezone) $selected = "selected";
+                echo "<option $selected> {$lines}</option>";
+              }
+              echo '</select>';
+            ?> <br><br>
+        </dev>
+        
+        <input type="submit" id="time_submit" name="time_submit" value="Save" onclick="return confirm('Do you want to save changes?')"> <br><br>
+        <hr>
       </div>
     </form>
-  </div>
-  <div id="content0-3">
-    Contents 3...
   </div>
   <div id="content0-4">
     Contents 4...
@@ -160,12 +192,20 @@ if(isset($_POST['submit_ip6'])) {
   <div id="content0-5">
     Contents 5...
   </div>
+  <div id="content0-6">
+    Contents 6...
+  </div>
+  <div id="content0-7">
+    Contents 7...
+  </div>
   <div class="vtabs__links">
     <a href="#content0-1">Network</a>
-    <a href="#content0-2">Date/Time</a>
-    <a href="#content0-3">MRTG</a>
-    <a href="#content0-4">Cellular(3G/4G modem)</a>
-    <a href="#content0-5">COM Settings</a>
+    <a href="#content0-2">WLAN</a>
+    <a href="#content0-3">Date/Time</a>
+    <a href="#content0-4">Users</a>
+    <a href="#content0-5">Routes</a>
+    <a href="#content0-6">System</a>
+    <a href="#content0-7">Cellular(3G/4G modem)</a>
   </div>
 </div>
 

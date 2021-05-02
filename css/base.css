@@ -246,7 +246,7 @@ table .tableinthecenter
   z-index: 1;
 }
 
-.ip {
+.input_block {
   clear:both; 
   text-align:right;
   line-height:15px;
