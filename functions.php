@@ -163,7 +163,7 @@ function FindUserInFile($userUser, $filename)
 
 /** Отправляет команду на iodc.d на выдачу блока информации $BlockName. Возвращает сроковое содержимое ответа в json.
  */
-function RequestConfBlock($BlockName)
+function RequestIodExch($BlockName)
 {
   global $write_pipe, $read_pipe;
   exec("echo " . $BlockName . " > " . $write_pipe);
@@ -221,6 +221,17 @@ function IpAddressIsCorrect($vStr, $vFirstOctet)
   } else {
     return False;
   }         
+}
+
+/** Возвращает имя группы пользователей по её id - vID. vArr - соответствует 2-мерному массиву $groups_arr в systemsets.php*/
+function GroupName_by_ID($vArr, $vID)
+{
+  for ($i=0; $i<count($vArr); $i++) {
+    if ($vArr[$i]["id"] == $vID) {
+      return $vArr[$i]["name"];
+    }
+  }
+  return '';
 }
 ?>
 

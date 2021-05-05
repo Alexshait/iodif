@@ -24,7 +24,7 @@ if($pass == '') {
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <!-- <meta http-equiv="Refresh" content="0; URL=http://192.168.0.105/#content-1"> -->
         <title>InOutDev solution test page</title>
-		<link rel="stylesheet" href="./css/reset.css">
+		<!-- <link rel="stylesheet" href="./css/reset.css"> -->
         <link rel="stylesheet" href="./css/base.css">
         <link rel="stylesheet" href="./css/tabs.css">
 		

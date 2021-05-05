@@ -1,0 +1,47 @@
+[33mcommit 5e3adb5d912853e64d105c6e1dd0dd693a90da06[m[33m ([m[1;36mHEAD -> [m[1;32mdevelop[m[33m, [m[1;31morigin/develop[m[33m)[m
+Author: Alexey Shait <ashaitarov@hotmail.com>
+Date:   Sun May 2 18:50:29 2021 +0300
+
+    Time menu is done but not tested
+
+[33mcommit d569b1e673ae5e4193a1183c7998bd6cf8b787ee[m
+Author: Alexey Shait <ashaitarov@hotmail.com>
+Date:   Sat May 1 22:38:45 2021 +0300
+
+    Network form is done
+
+[33mcommit 5173587ab39270904530968c78ed7a4145365476[m
+Author: Alexey Shait <ashaitarov@hotmail.com>
+Date:   Thu Apr 29 11:33:53 2021 +0300
+
+    login procedures and command exchange php-iod
+
+[33mcommit 286f9f66be49fc1d5447abd9419fdd473d70099a[m
+Author: Alexey Shait <ashaitarov@hotmail.com>
+Date:   Wed Apr 28 22:49:45 2021 +0300
+
+    json decode is done
+
+[33mcommit 9668ff0f0fd9fd4792e97eb641749207aea7628b[m
+Author: Alexey Shait <ashaitarov@hotmail.com>
+Date:   Sun Apr 25 23:00:21 2021 +0300
+
+    ready Network menu for json excahnge
+
+[33mcommit 7a7edcaac103dd1eecf45c73d73f1108969de9d7[m
+Author: Alexey Shait <ashaitarov@hotmail.com>
+Date:   Thu Apr 15 22:24:39 2021 +0300
+
+    Alex:testing
+
+[33mcommit 5208b1a1d471a72929e8be7833f2f63d4f235dcb[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m
+Author: alexey <alexey@DK.SPB>
+Date:   Mon Apr 12 14:47:56 2021 +0300
+
+    first commit
+
+[33mcommit 4b5fa225c74527cbf740d70e3740fa37cb6b94fb[m
+Author: Alexey Shait <ashaitarov@gmail.com>
+Date:   Sat Jan 16 19:12:08 2021 +0000
+
+    Initial commit
