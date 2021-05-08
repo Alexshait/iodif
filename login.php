@@ -18,7 +18,11 @@ if($_POST['submit']){
   $pass = '';
   $userName = $_POST['user'];
   if($userName !== '') {
+
     $json_blocks_str = RequestIodExch("shadow");
+       
+    // print_r($json_blocks_str); echo "<br />";
+    // die;
     $json_obj = json_decode(substr($json_blocks_str, 0, strlen($json_blocks_str)-1));
     $pass = UserIdentity($json_obj->{'shadow'}, $userName);
     print_r($pass);echo "<br />";

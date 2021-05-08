@@ -41,8 +41,9 @@ if (isset($_POST['submit_ip'])) {
     //   "ip" => json_encode($_POST, JSON_UNESCAPED_UNICODE)
     // );
     $ip_str = json_encode($_POST, JSON_UNESCAPED_UNICODE);
+    $ip_str = str_replace("_", " ", $ip_str); // $_POST заменяет пробелы на "_", поэтому требуется заменить на пробел
     print_r($ip_str); echo "<br />";
-    $json_str = "#{\"ip\":" . $ip_str . "}";
+    $json_str = "'#{\"ip\":" . $ip_str . "}'";  // ,\"syscmd\":[\"reboot\"]
     print_r($json_str); echo "<br />";
     $respone = RequestIodExch($json_str);
     print_r($respone); echo "<br />";
