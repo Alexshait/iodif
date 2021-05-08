@@ -170,6 +170,12 @@ function RequestIodExch($BlockName)
   return read_pipe($read_pipe);
 }
 
+function RequestIodExch1($BlockName)
+{
+  global $write_pipe, $read_pipe;
+  exec("echo " . $BlockName . " > " . $write_pipe);
+  return 'OK';//read_pipe($read_pipe);
+}
 /** Читает содержимое pipe-файла $filename и возвращает содержимое json-выражение  в массив */
 function read_pipe($filename)
 {
