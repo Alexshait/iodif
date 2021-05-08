@@ -1,4 +1,11 @@
 <?php
+$cpu = array("ip" => 2, "msk" => 6);
+if (archOS() == "aarch64") {
+  $cpu = array(
+    "ip" => 1,
+    "msk" => 3
+  );
+}
 // require 'functions.php';
 /******************************** NETWORK ***************************************/
 $confBlocks_str = RequestIodExch("all");
@@ -85,15 +92,15 @@ if (isset($_POST['time_submit'])) {
   <div id="menu_network">
     <p>Current settings: <br>
       DHCP v4: <?php echo ($ip_dhcp == 'DHCP') ?  "Enabled" : "Disabled"; ?> <br>
-      IP address v4: <?php echo $ip_addr[2]; ?> <br>
-      Mask v4: <?php echo $ip_addr[6]; ?><br>
+      IP address v4: <?php echo $ip_addr[$cpu["ip"]]; ?> <br>
+      Mask v4: <?php echo $ip_addr[$cpu["msk"]]; ?><br>
       Gateway v4: <?php echo $ip_gw; ?><br>
       DNS: <?php echo $dns1[1] . "; " . $dns2[1] . "; " . $dns3[1]; ?><br>
     </p>
     <hr>
     <p>
       DHCP v6: <?php echo ($ip6_dhcp == 'DHCP') ?  "Enabled" : "Disabled"; ?> <br>
-      IP address v6: <?php echo $ip6_addr[2]; ?> <br>
+      IP address v6: <?php echo $ip6_addr[$cpu["ip"]]; ?> <br>
       Mask v6: <?php echo $ip6_mask; ?><br>
       Gateway v6: <?php echo $ip6_gw; ?><br>
     </p>
@@ -110,11 +117,11 @@ if (isset($_POST['time_submit'])) {
         <div class="input_block">
           <!-- <label class="lbl_radio" for="address">IP address: </label> -->
           <a> IP address: </a>
-          <input type="text" name="address" id="address" value=<?php echo $ip_addr[2]; ?>><br><br>
+          <input type="text" name="address" id="address" value=<?php echo $ip_addr[$cpu["ip"]]; ?>><br><br>
         </div>
         <div class="input_block">
           <a>Mask: </a>
-          <input type="text" name="netmask" id="netmask" value=<?php echo $ip_addr[6]; ?>><br><br>
+          <input type="text" name="netmask" id="netmask" value=<?php echo $ip_addr[$cpu["msk"]]; ?>><br><br>
         </div>
         <div class="input_block">
           <a> Gateway: </a>
@@ -144,7 +151,7 @@ if (isset($_POST['time_submit'])) {
 
         <div class="input_block">
           <a>IP address IPv6: </a>
-          <input type="text" name="address" id="address" value=<?php echo $ip6_addr[2]; ?>><br><br>
+          <input type="text" name="address" id="address" value=<?php echo $ip6_addr[$cpu["ip"]]; ?>><br><br>
         </div>
         <div class="input_block">
           <a>Mask IPv6: </a>

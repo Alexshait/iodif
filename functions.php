@@ -1,7 +1,7 @@
 <?php
 
-$write_pipe = "/tmp/iodwr";
-$read_pipe = "/tmp/iodrw";
+$write_pipe = "/var/www_tmp/iodwr";
+$read_pipe = "/var/www_tmp/iodrw";
 
 function arr2ini(array $a, array $parent = array())
 {
@@ -176,6 +176,7 @@ function RequestIodExch1($BlockName)
   exec("echo " . $BlockName . " > " . $write_pipe);
   return 'OK';//read_pipe($read_pipe);
 }
+
 /** Читает содержимое pipe-файла $filename и возвращает содержимое json-выражение  в массив */
 function read_pipe($filename)
 {
@@ -190,19 +191,10 @@ function read_pipe($filename)
   return $read;
 }
 
-/** Читает содержимое pipe-файла $filename и возвращает содержимое json-выражение  в массив */
+/** возвращает тип ОС: aarch64 или i686 */
 function archOS()
 {
-  $cpu_str = php_uname('m'); // тип архитектуры цпу
-  if ($cpu_str == "aarch64") {
-    return " ";
-  }
-  elseif ($cpu_str == "i686") {
-    return ":";
-  }
-  else {
-    return " ";
-  }
+  return php_uname('m'); // тип архитектуры цпу
 }
 
 /** Возвращает true, если формат IP адреса корректен. vStr - IP адрес или маска? */
