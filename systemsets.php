@@ -1,11 +1,4 @@
 <?php
-$cpu = array("ip" => 2, "msk" => 6);
-if (archOS() == "aarch64") {
-  $cpu = array(
-    "ip" => 1,
-    "msk" => 3
-  );
-}
 // require 'functions.php';
 /******************************** NETWORK ***************************************/
 $confBlocks_str = RequestIodExch("all");
@@ -23,9 +16,17 @@ if (count($confBlocks_obj->{"dns"}) >= 2) $dns2 = explode(" ", $confBlocks_obj->
 if (count($confBlocks_obj->{"dns"}) >= 3) $dns3 = explode(" ", $confBlocks_obj->{"dns"}[2]);
 $ip6_dhcp = $confBlocks_obj->{"ip6"}->{"iface eth0 inet6"};
 $ip6_addr = preg_split("/ /", $confBlocks_obj->{"commands"}->{"ifconfig eth0 | grep 'inet6 '"});
-// print_r($ip6_addr); echo "<br />";
+
 $ip6_mask = $confBlocks_obj->{"ip6"}->{"netmask"};
 $ip6_gw = $confBlocks_obj->{"ip6"}->{"gateway"};
+$cpu = array("ip" => 2, "msk" => 6);
+if (archOS() == "aarch64") {
+  $cpu = array(
+    "ip" => 1,
+    "msk" => 3
+  );
+}
+//print_r('current_page=' . $_SESSION['current_page']); echo "<br />";
 /**************** SUBMIT NETWORK *********************************/
 if (isset($_POST['submit_ip'])) {
   require_once dirname(__FILE__) . '/functions.php';
@@ -75,7 +76,8 @@ $ntpserv =  $confBlocks_obj->{"ntpserv"}->{"NTP="};
 /************************ SUBMIT TIME ***************************** */
 
 if (isset($_POST['btn_save_zone'])) { // задаем timezone на основе выбора региона
-  $timezone = $_POST['select_zone'];
+  $zone = $_POST['select_zone'];
+  echo GoToCurrentPage('?tab=tab2#menu_time');
 }
 if (isset($_POST['time_submit'])) {
   $zone = $_POST['select_zone'];
@@ -85,6 +87,7 @@ if (isset($_POST['time_submit'])) {
   $ntp_str = "{\"ntpserv\":{\"NTP=\":\" $ntpserv \"}";
   $json_str = "#" . $ntp_str . "," . $time_str;
   // print_r($json_str); echo "<br />";
+  echo GoToCurrentPage('?tab=tab2#menu_time');
 }
 ?>
 <!----------------------------------------- HTML ------------------------------------------------ -->
@@ -182,6 +185,7 @@ if (isset($_POST['time_submit'])) {
   </div>
   <!------------------- Меню TIME ----------------------- -->
   <div id="menu_time">
+  
     <p>Current settings: <br>
       NTP servers: <?php echo $ntpserv; ?> <br>
       Region: <?php echo $zone; ?><br>
@@ -340,6 +344,10 @@ if (isset($_POST['time_submit'])) {
     }
     if (isset($_POST['user_edit_submit'])) {
       // print_r("user_add_submit"); echo '<br />';
+      //$_SESSION['current_tab'] = '?tab=tab2#menu_users';
+      echo contentoftab2_editUsers();
+      echo GoToCurrentPage('?tab=tab2#menu_users'); 
+      //$_SESSION['current_tab'] = $_SESSION['current_tab'] . '#menu_users';
       // include(dirname(__FILE__) . '/users_update.php');
     }
     if (isset($_POST['user_delete_submit'])) {
@@ -360,7 +368,7 @@ if (isset($_POST['time_submit'])) {
   <div class="vtabs__links">
     <a href="#menu_network">Network</a>
     <a href="#menu_wlan">WLAN</a>
-    <a href="#menu_gsm">GSM (3G/4G modem)</a>
+    <a href="#menu_gsm" >GSM (3G/4G modem)</a>
     <a href="#menu_time">Date/Time</a>
     <a href="#menu_users">Users</a>
     <a href="#menu_routes">Routes</a>
