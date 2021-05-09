@@ -123,5 +123,12 @@ if($pass == '') {
                 </div>
             </div>
         <!-- </div> -->
+        <?php 
+        //if ($_SESSION['current_tab'] != '') {
+            //print_r('current_tab=' . $_SESSION['current_tab']);
+            
+         //} 
+         ?>
+        
     </body>
 </html>

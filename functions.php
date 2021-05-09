@@ -231,5 +231,34 @@ function GroupName_by_ID($vArr, $vID)
   }
   return '';
 }
+
+function contentoftab2_editUsers() 
+{
+  return '<br><br>
+  <form method="post" action="">
+    <div id="frm_main">
+      <div class="input_block">
+        <a>User group: </a>
+        <input type="text" name="user_group" id="user_group"> <br><br>
+      </div>
+      <div class="input_block">
+        <a>User info: </a>
+        <input type="text" name="user_info" id="user_info"> <br><br>
+      </div>
+      <input type="submit" id="user_add_submit" name="user_add_submit" value="Save" class="submit_btn"> <br><br>
+      <hr>
+    </div>
+  </form>';
+}
+
+/** Возвращает текст javascript, перенаправляющий на таб, указанный в vUrl */
+function GoToCurrentPage($vUrl)
+{
+  return ' <script type="text/javascript">
+  window.location.href = "index.php' . $vUrl . '";
+  </script>';
+}
+
+
 ?>
 

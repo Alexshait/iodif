@@ -14,11 +14,6 @@ session_start();
 
 require_once dirname(__FILE__).'/functions.php';
 
-$tmp = shell_exec('ls -l /var/www/html/iod_webif_repo/');
-$tmp2 = explode('\n', $tmp);
-print_r($tmp);
-
-
 if($_POST['submit']){
   $pass = '';
   $userName = $_POST['user'];
