@@ -43,6 +43,7 @@
 .vtabs>#menu_users:target~.vtabs__links>a[href="#menu_users"],
 .vtabs>#menu_routes:target~.vtabs__links>a[href="#menu_routes"],
 .vtabs>#menu_system:target~.vtabs__links>a[href="#menu_system"],
+.vtabs>#menu_temp:target~.vtabs__links>a[href="#menu_temp"],
 .vtabs>#content1-1:target~.vtabs__links>a[href="#content1-1"],
 .vtabs>#content1-2:target~.vtabs__links>a[href="#content1-2"],
 .vtabs>#content1-3:target~.vtabs__links>a[href="#content1-3"],

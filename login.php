@@ -25,12 +25,14 @@ if($_POST['submit']){
     // die;
     $json_obj = json_decode(substr($json_blocks_str, 0, strlen($json_blocks_str)-1));
     $pass = UserIdentity($json_obj->{'shadow'}, $userName);
-    print_r($pass);echo "<br />";
+    //print_r($pass);echo "<br />";
     if($pass != null) {
       $arrPwd = explode("$", $pass);
       $s1 = $arrPwd[1];
       $salt = $arrPwd[2];
       $hashed = crypt($_POST['pass'], substr($pass, 0, strlen($s1) + strlen($salt) + 3));
+      // print_r('substr=' . substr($pass, 0, strlen($s1) + strlen($salt) + 3) . ';' . $hashed);echo "<br />";
+      // die;
       if ($pass == $hashed)
       {
          echo '<p>OK!</p>';
