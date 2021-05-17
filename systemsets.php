@@ -185,13 +185,6 @@ $confBlocks_obj = json_decode(substr($confBlocks_str, 0, strlen($confBlocks_str)
       $json_str = "'#{\"ntpserv\":{\"NTP=\":\"$ntpserv\"},\"timezone\":[\"$zone/$timezone\"]}'";
       $reply = RequestIodExch($json_str);
       print_r($reply);
-      echo "<br />";
-      usleep(3000);
-      $confBlocks_str = RequestIodExch($reply);
-      $confBlocks_obj = json_decode(substr($confBlocks_str, 0, strlen($confBlocks_str) - 1));
-      print_r($confBlocks_str);
-      echo "<br />";
-      echo GoToCurrentPage('?tab=tab2#menu_time');
     }
 
     $region_timezone_arr = explode('/', $confBlocks_obj->{"timezone"}[0]);
@@ -207,7 +200,7 @@ $confBlocks_obj = json_decode(substr($confBlocks_str, 0, strlen($confBlocks_str)
       Time zone: <?php echo $current_timezone; ?><br><br>
     </p>
     <hr>
-    <form method="post" action="">
+    <form method="post" action="?tab=tab2#menu_temp">
       <div id="frm_main">
         <br><br>
         <div class="input_block">
@@ -306,7 +299,6 @@ $confBlocks_obj = json_decode(substr($confBlocks_str, 0, strlen($confBlocks_str)
       ?>
 
       <br><br>
-      <input type="submit" id="user_edit_submit" name="user_edit_submit" class="submit_btn" value="Edit user"> <a> </a>
       <input type="submit" id="user_delete_submit" name="user_delete_submit" class="submit_btn" value="Delete user" onclick="return confirm('Do you want to delete selected user?')">
       <br><br>
     </form>
@@ -349,7 +341,7 @@ $confBlocks_obj = json_decode(substr($confBlocks_str, 0, strlen($confBlocks_str)
     <?php
     if (isset($_POST['user_add_submit'])) {
       $current_tab = "?tab=tab2#menu_users"; // используется для возврата на исходный таб
-      if ($_POST['password'] == $_POST['confirm_pwd'] && strlen($_POST['password']) >= 6 && HostNameIsCorrect($_POST['user_name'])) {
+      if ($_POST['password'] == $_POST['confirm_pwd'] && strlen($_POST['password']) >= 6 && HostNameIsCorrect($_POST['user_name']) && NoDoubleUsers($_POST['user_name'], $users_arr)) {
         $usr_id = 1 + getMaxUserId($users_arr);
         $user_line = $_POST['user_name'] . ':x:' . $usr_id . ':' . $_POST['select_group'] . ':' . $_POST['user_info'] . ':/home/' . $_POST['user_name'] .  ':/bin/bash';
         $pass = $_POST['password'];
@@ -357,24 +349,23 @@ $confBlocks_obj = json_decode(substr($confBlocks_str, 0, strlen($confBlocks_str)
         $hashed = crypt($_POST['password'], '$6$' . $salt . '$'); //substr($pass, 0, strlen($s1) + strlen($salt) + 3)
         $shadow_line = $_POST['user_name'] . ':' . $hashed . ':18349:0:99999:7:::';
         $json_str = "'#{\"users\":[\"" . $user_line . "\"],\"shadow\":[\"" . $shadow_line . "\"]}'";
-        $reply = RequestIodExch($json_str);
-        print_r('json' . $reply);
+        // $reply = RequestIodExch($json_str);
+        print_r('json' . $json_str);
         $user_message_menu_temp = 'Successully changed';
       } else {
-        $user_message_menu_temp = 'The new user was not created. A password should have 6 signs minimum and user name should have letters or digits.';
+        $user_message_menu_temp = 'The new user was not created. A password must be at least 6 characters long and confirmed, user name must be alphanumeric and unique.';
       }
-    }
-    if (isset($_POST['user_edit_submit'])) {
-      $current_tab = "?tab=tab2#menu_users"; // используется для возврата на исходный таб
-      $user_message_menu_temp = 'Successully changed';
-      echo contentoftab2_editUsers();
     }
     if (isset($_POST['user_delete_submit'])) {
       $current_tab = "?tab=tab2#menu_users"; // используется для возврата на исходный таб
-      $user_message_menu_temp = 'Successully changed';
-      $json_str = "'#{\"users\":[\"" . $confBlocks_obj->{"users"}[$_POST['type_radio']] . "*\"],\"shadow\":[\"" . $confBlocks_obj->{"shadow"}[$_POST['type_radio']] . "*\"]}'";
-      $reply = RequestIodExch($json_str);
-      print_r($reply);
+      if (isset($_POST['type_radio'])) {        
+        $user_message_menu_temp = 'Successully changed';
+        $json_str = "'#{\"users\":[\"" . $confBlocks_obj->{"users"}[$_POST['type_radio']] . "*\"],\"shadow\":[\"" . $confBlocks_obj->{"shadow"}[$_POST['type_radio']] . "*\"]}'";
+        $reply = RequestIodExch($json_str);
+        print_r($reply);
+      } else {
+        $user_message_menu_temp = 'A user was not selected to delete.';
+      }
     }
     ?>
 

@@ -234,7 +234,7 @@ function GroupName_by_ID($vArr, $vID)
 function ExplodeUsers($vUsers_arr)
 {
   if (count($vUsers_arr) >= 1) {
-    for ($i = 0; $i <= count($vUsers_arr); $i++) {
+    for ($i = 0; $i < count($vUsers_arr); $i++) {
       $user_prop[$i] = explode(":", $vUsers_arr[$i]);
     }
   }
@@ -261,14 +261,24 @@ function getMaxUserId($vUser_list_arr)
 {
   $id = 0;
   for ($i = 0; $i < count($vUser_list_arr); $i++) {
-    if ($vUser_list_arr[$i]["id"] > $id) {
-      $id = $vUser_list_arr[$i]["id"];
+    if ($vUser_list_arr[$i][2] > $id) { // $users_arr[$i][2] - это id пользователя
+      $id = $vUser_list_arr[$i][2];
     }
   }
   return $id;
 }
 
-//** Генерирует соль */
+/** Возвращает true, если в массиве пользователей $vUsers_arr не найден пользователь с именем $vUser */
+function NoDoubleUsers($vUser, $vUsers_arr) {
+  foreach ($vUsers_arr as $elem) {
+    if ($elem[0] == $vUser) {
+      return false;
+    }
+  }
+  return true;
+}
+
+/** Генерирует соль */
 function SaltGenerator() {
   $Base64Characters = [".", "/", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
   $slt = '';
