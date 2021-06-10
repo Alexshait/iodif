@@ -13,17 +13,22 @@
 			Contents 3...
 			</div>
 			<div id="content2-4">
-        <!--
-        <iframe src="https://192.168.0.105:4200" style="height: -webkit-fill-available; width: -webkit-fill-available;"  align="left">You're browser does not support IFRAME</iframe>
-        -->
+			<div id="frm_main" style="height:600px; width: 80%;">
+                <?php $host = 'https://' . $_SERVER['SERVER_NAME'] . ':4200'; ?>
+
+                <iframe src="<?php echo $host; ?>" style="height: -webkit-fill-available; width: 100%;" align="left">You're browser does not support IFRAME</iframe>
+            </div>
+        
+        <!-- <iframe src="https://192.168.8.128:4200" style="height: -webkit-fill-available; width: -webkit-fill-available;"  align="left">You're browser does not support IFRAME</iframe> -->
+       
         <!--
         <object data="https://192.168.0.105:4200" class="stretched"  align="left">You're browser does not support IFRAME</object>
         -->
-        <!--
-        <object>
-          <iframe src="https://192.168.0.105:4200" height="100%" style="height: -webkit-fill-available; width: -webkit-fill-available;"  align="left">You're browser does not support IFRAME</iframe>
-        </object>
-        -->
+        
+        <!-- <object>
+          <iframe src="https://192.168.8.128:4200" height="100%" style="height: -webkit-fill-available; width: -webkit-fill-available;"  align="left">You're browser does not support IFRAME</iframe>
+        </object> -->
+       
         <!--
         <object>
           <embed src="https://192.168.0.105:4200" height="100%" style="height: -webkit-fill-available; width: -webkit-fill-available;"  align="left"></embed>

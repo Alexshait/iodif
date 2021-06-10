@@ -250,6 +250,7 @@ table .tableinthecenter
   clear:both; 
   text-align:right;
   line-height:15px;
+  /* justify-content: right; */
 }
 
 #radio_div {
@@ -271,9 +272,11 @@ table .tableinthecenter
 }
 
 #frm_main {
+  display: initial;
   clear:both; 
   float:left;
   margin-left: 50px;
+  justify-content: right;
 }
 
 #menu_users {

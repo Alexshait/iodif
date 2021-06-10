@@ -4,7 +4,7 @@ $confBlocks_str = RequestIodExch("all");
 $confBlocks_obj = json_decode(substr($confBlocks_str, 0, strlen($confBlocks_str) - 1));
 ?>
 <div class="vtabs">
-<!--********************************************* MENU NETWORK ********************************************* -->
+  <!--********************************************* MENU NETWORK ********************************************* -->
   <div id="menu_network">
     <?php
     if (isset($_POST['submit_ip'])) {
@@ -189,6 +189,7 @@ $confBlocks_obj = json_decode(substr($confBlocks_str, 0, strlen($confBlocks_str)
 
     $region_timezone_arr = explode('/', $confBlocks_obj->{"timezone"}[0]);
     $current_zone = $region_timezone_arr[0];
+    $zone = $current_zone;
     $current_timezone = $region_timezone_arr[1];
     //$timezone = "Europe";
     $current_ntpserv =  $confBlocks_obj->{"ntpserv"}->{"NTP="};
@@ -200,52 +201,62 @@ $confBlocks_obj = json_decode(substr($confBlocks_str, 0, strlen($confBlocks_str)
       Time zone: <?php echo $current_timezone; ?><br><br>
     </p>
     <hr>
-    <form method="post" action="?tab=tab2#menu_temp">
-      <div id="frm_main">
-        <br><br>
+    <div id="frm_main">
+      <form method="post" action="">
+
         <div class="input_block">
-          <a>NTP servers separated by comma: </a>
-          <input type="text" name="NTP=" id="NTP=" value=<?php echo $current_ntpserv; ?>><br><br>
+          <a>Region: </a>
+          <?php
+          $filename = "./zones/zones";
+          $eachlines = file($filename, FILE_IGNORE_NEW_LINES);
+          echo '<select name="select_zone" id="select_zone">'; // SELECT ZONE
+          if (!isset($_POST['btn_save_zone'])) echo "<option selected> </option>";
+          foreach ($eachlines as $lines) {
+            $selected = '';
+            if ($_POST['select_zone'] == $lines) $selected = "selected";
+            echo "<option $selected> {$lines} </option>";
+          }
+          echo '</select>';
+          ?>
+          <input type="submit" id="btn_save_zone" value="Set zone" name="btn_save_zone">
+          <br>
         </div>
-        <dev class="input_block">
 
-          <form method="post" action="">
-            <!--  FORM ZONE -->
-            <a>Region: </a>
-            <?php
-            $filename = "./zones/zones";
-            $eachlines = file($filename, FILE_IGNORE_NEW_LINES);
-            echo '<select name="select_zone" id="select_zone">'; // SELECT ZONE
-            foreach ($eachlines as $lines) {
-              $selected = '';
-              if ($lines == $zone) $selected = "selected";
-              echo "<option $selected> {$lines} </option>";
-            }
-            echo '</select>';
-            ?>
-            <input type="submit" id="btn_save_zone" value="Set zone" name="btn_save_zone"><br><br>
-          </form>
+      </form>
 
-        </dev>
+      <form method="post" action="?tab=tab2#menu_temp">
+
         <dev class="input_block">
           <a>Time zone: </a>
           <?php
-          $filename = "./zones/" . $zone;
+          if (isset($_POST['btn_save_zone'])) {
+            $filename = "./zones/" . $_POST['select_zone'];
+          } else {
+            $filename = "./zones/" . $zone;
+          }
+          // print_r($_POST['select_zone']); echo '<br />';
           $eachlines = file($filename, FILE_IGNORE_NEW_LINES);
           echo '<select name="select_timezone" id="select_timezone">'; // SELECT TIMEZONE
+          echo "<option selected> </option>";
           foreach ($eachlines as $lines) {
             $selected = '';
-            if ($lines == $timezone) $selected = "selected";
+            if ($_POST['select_timezone'] == $lines) $selected = "selected";
             echo "<option $selected> {$lines}</option>";
           }
           echo '</select>';
           ?> <br><br>
         </dev>
 
+        <div class="input_block">
+          <a>NTP servers separated by comma: </a>
+          <input type="text" name="NTP=" id="NTP=" value=<?php echo $current_ntpserv; ?>><br><br>
+        </div>
+
         <input type="submit" id="time_submit" name="time_submit" class="submit_btn" value="Save" onclick="return confirm('Do you want to save changes?')"> <br><br>
         <hr>
-      </div>
-    </form>
+
+      </form>
+    </div>
   </div>
   <!-- **************************************** Меню USERS ********************************** -->
   <div id="menu_users">
@@ -349,8 +360,8 @@ $confBlocks_obj = json_decode(substr($confBlocks_str, 0, strlen($confBlocks_str)
         $hashed = crypt($_POST['password'], '$6$' . $salt . '$'); //substr($pass, 0, strlen($s1) + strlen($salt) + 3)
         $shadow_line = $_POST['user_name'] . ':' . $hashed . ':18349:0:99999:7:::';
         $json_str = "'#{\"users\":[\"" . $user_line . "\"],\"shadow\":[\"" . $shadow_line . "\"]}'";
-        // $reply = RequestIodExch($json_str);
-        print_r('json' . $json_str);
+        $reply = RequestIodExch($json_str);
+        // print_r('json' . $json_str);
         $user_message_menu_temp = 'Successully changed';
       } else {
         $user_message_menu_temp = 'The new user was not created. A password must be at least 6 characters long and confirmed, user name must be alphanumeric and unique.';
@@ -358,11 +369,11 @@ $confBlocks_obj = json_decode(substr($confBlocks_str, 0, strlen($confBlocks_str)
     }
     if (isset($_POST['user_delete_submit'])) {
       $current_tab = "?tab=tab2#menu_users"; // используется для возврата на исходный таб
-      if (isset($_POST['type_radio'])) {        
+      if (isset($_POST['type_radio'])) {
         $user_message_menu_temp = 'Successully changed';
         $json_str = "'#{\"users\":[\"" . $confBlocks_obj->{"users"}[$_POST['type_radio']] . "*\"],\"shadow\":[\"" . $confBlocks_obj->{"shadow"}[$_POST['type_radio']] . "*\"]}'";
         $reply = RequestIodExch($json_str);
-        print_r($reply);
+        // print_r($reply);
       } else {
         $user_message_menu_temp = 'A user was not selected to delete.';
       }
@@ -378,11 +389,14 @@ $confBlocks_obj = json_decode(substr($confBlocks_str, 0, strlen($confBlocks_str)
     Contents 6...
   </div>
   <div id="menu_temp">
-    <p><?php echo $user_message_menu_temp; ?></p>
-    <br><br>
-    <form method="post" action=<?php echo $current_tab; ?>>
-      <input type="submit" name="btn_go_back" class="submit_btn" value="Return">
-    </form>
+    <div class="input_block">
+      <p><?php echo $user_message_menu_temp; ?></p>
+      <br><br>
+      <form method="post" action=<?php echo $current_tab; ?>>
+        <input type="submit" name="btn_go_back" class="submit_btn" value="Return">
+      </form>
+    </div>
+
   </div>
 
 
