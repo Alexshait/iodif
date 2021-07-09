@@ -69,3 +69,17 @@ for ($i = 1; $i < 13; $i++) {
 }
 $nmbdays = cal_days_in_month(1, (int)$cmn, (int)$curyear); // 1- CAL_GREGORIAN
 //echo '$nmbdays = '.$nmbdays;
+
+TTY tab в файле index.php
+        <div class="tab">
+            <input type="radio" id="tab-5" name="tab-group-1" <?php
+                                                                if (isset($_GET['tab']) && $_GET['tab'] == "tab5")
+                                                                    echo  "checked";
+                                                                ?>>
+            <label for="tab-5">TTY</label>
+            <div id="tab5" class="content">
+                <?php $host = 'https://' . $_SERVER['SERVER_NAME'] . ':4200'; ?>
+
+                <!-- <iframe src="<?php echo $host; ?>" height="100%" style="height: -webkit-fill-available; width: 100%;" align="left">You're browser does not support IFRAME</iframe> -->
+            </div>
+        </div>

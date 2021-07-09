@@ -10,8 +10,22 @@
         "group": "test",
         "presentation": {
           "reveal": "always",
-          "panel": "new",
-        }
+          "panel": "new"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Copy code to IOD-1",
+        "type": "shell",
+        "windows": {
+          "command": ".\\copy_code_iod-1.cmd"
+        },
+        "group": "test",
+        "presentation": {
+          "reveal": "always",
+          "panel": "new"
+        },
+        "problemMatcher": []
       }
     ]
   }

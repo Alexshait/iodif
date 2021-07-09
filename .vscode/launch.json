@@ -4,7 +4,6 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        
         {
             "type": "pwa-chrome",
             "request": "launch",
@@ -12,6 +11,14 @@
             "url": "http://192.168.8.128/iod_webif_repo/index.php",
             "webRoot": "${workspaceFolder}",
             "preLaunchTask": "Copy code"
+        },
+        {
+            "type": "pwa-chrome",
+            "request": "launch",
+            "name": "OID-1",
+            "url": "http://10.0.0.23/iod_webif_repo/index.php",
+            "webRoot": "${workspaceFolder}",
+            "preLaunchTask": "Copy code to IOD-1"
         }
     ]
 }

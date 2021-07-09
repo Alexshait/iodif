@@ -40,9 +40,10 @@ function Get1stTabRow()
   //return gethostname();
 }
 
-function getdata()
+/**Возвращает строку выдачи системной команы $cmd. */
+function GetSystemCmd($cmd)
 {
-  return shell_exec('date');
+  return shell_exec($cmd);
 }
 
 function getuptime()
@@ -330,4 +331,13 @@ function GoToCurrentPage($vUrl)
   return ' <script type="text/javascript">
   window.location.href = "index.php' . $vUrl . '";
   </script>';
+}
+
+/** Возвращает массив данных из выдачи команды $shellCommand */
+function GetArrayFromShell($shellCommand)
+{
+  $str = shell_exec($shellCommand);
+  $single_space_str = preg_replace('!\s+!', ' ', $str);
+  $arrStr = explode(" ", $single_space_str);
+  return $arrStr;
 }

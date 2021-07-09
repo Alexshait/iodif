@@ -1,11 +1,11 @@
 						<div class="vtabs">
-							  <div id="loganalyzer_tab">
-							  	<?php $host = 'https://' . $_SERVER['SERVER_NAME'] . '/loganalyzer'; ?>
+							  <div id="loganalyzer_tab" style="height:600px; width: 100%;">
+							  	<?php $host = 'http://' . $_SERVER['SERVER_NAME'] . '/loganalyzer'; ?>
 								<iframe src="<?php echo $host; ?>" style="height: -webkit-fill-available; width: 100%;" align="left">You're browser does not support IFRAME</iframe>
 							  </div>
-							  <div id="mrtg_tab">
-								Contents 2...<br>
-								Contents 2...<br>
+							  <div id="mrtg_tab" style="height:600px; width: 100%;">
+							  	<?php $host = 'http://' . $_SERVER['SERVER_NAME'] . '/mrtg'; ?>
+								<iframe src="<?php echo $host; ?>" style="height: -webkit-fill-available; width: 100%;" align="left">You're browser does not support IFRAME</iframe>
 							  </div>
 							  <div id="content1-3">
 								Contents 3...

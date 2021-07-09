@@ -31,8 +31,8 @@ if ($pass == '') {
     <style type="text/css" media="screen">
     </style>
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> -->
-    <script src="../js/JQuery/jquery.min.js"></script>
-    <script language="JavaScript" src="../js/base.js" charset="utf-8"></script>
+    <script src="./js/JQuery/jquery.min.js"></script>
+    <script language="JavaScript" src="./js/base.js" charset="utf-8"></script>
 </head>
 
 <body>
@@ -46,6 +46,7 @@ if ($pass == '') {
                                                                 ?>>
             <label for="tab-1">Status</label>
             <div id="tab1" class="content">
+                
                 <?php
                 include(dirname(__FILE__) . '/dashboard.php');
                 ?>

@@ -306,3 +306,40 @@ input.submit_btn {
   width: 6em;
   height: 2em;
 }
+
+.DashboardTitle {
+  float: left;
+  font-family: Tahoma, Helvetica;
+  font-size: 21px;
+  padding-left: 30px;
+  width: 250px;
+  text-align: left;
+}
+
+.DashboardText {
+  text-align: left;
+  font-family: Tahoma, Helvetica;
+  font-size: 13px;
+  line-height: 13px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 15px;
+  width: 516px;
+  white-space: nowrap;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* .Dashboard {
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #333;
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+} */
