@@ -3,11 +3,11 @@
     <img src="img/version.png" alt="Version"> Version
   </div>
   <div class="DashboardText" id="Text0">
-    <?php $device_info_arr = GetArrayFromShell('uname -a') ?>
-    <p>Host name: <b><?php echo $device_info_arr[1]; ?></b></p>
-    <p>Processor: <b><?php echo $device_info_arr[11]; ?></b></p>
-    <p>Kernel version: <b><?php echo $device_info_arr[0] . ' ' . $device_info_arr[2]; ?></b></p>
-    <p>Firmware: <b><?php echo $device_info_arr[3]; ?></b></p>
+    <?php $device_info_arr = GetArrayFromShell('uname -a'); ?>
+    <p>Host name: <b><?php echo $device_info_arr[0][1]; ?></b></p>
+    <p>Processor: <b><?php echo $device_info_arr[0][11]; ?></b></p>
+    <p>Kernel version: <b><?php echo $device_info_arr[0][0] . ' ' . $device_info_arr[0][2]; ?></b></p>
+    <p>Firmware: <b><?php echo $device_info_arr[0][3]; ?></b></p>
   </div>
   <br>
   <hr> <br>
@@ -37,7 +37,7 @@
     $single_space_str = preg_replace('!\s+!', ' ', $response_str);
     $arrCpu = explode(" ", $single_space_str);
     ?>
-    <p>Load: <b><?php echo $arrCpu[3]; ?></b></p>
+    <p>Load: <b><?php echo $arrCpu[4]; ?></b></p>
     <p>Frequency: <b><?php echo $arrCpu[2]; ?></b></p>
     <p>Tempreture: <b><?php echo $arrCpu[10]; ?></b></p>
   </div>
@@ -49,30 +49,41 @@
   </div>
   <div class="DashboardText">
     <?php $mem_arr = GetArrayFromShell('free -h');
-    $mmc_arr = GetArrayFromShell('df -h | grep /dev/mmc'); ?>
-    <p>Memory Used / Total: <b><?php echo $mem_arr[9] . ' / ' . $mem_arr[8]; ?></b></p>
-    <p>Swap Used / Total: <b><?php echo $mem_arr[16] . ' / ' . $mem_arr[15]; ?></b></p>
-    <p>Disk Used / Total: <b><?php echo $mmc_arr[2] . ' / ' . $mmc_arr[1]; ?></b></p>
+    $mmc_arr = GetArrayFromShell('df -h | grep /dev/mmc'); 
+    // print_r(count($mem_arr)); echo "<br />";?> 
+    <p>Memory Used / Total: <b><?php echo $mem_arr[1][2] . ' / ' . $mem_arr[1][1]; ?></b></p>
+    <p>Swap Used / Total: <b><?php echo $mem_arr[2][2] . ' / ' . $mem_arr[2][1]; ?></b></p>
+    <p>Disk Used / Total: <b><?php echo $mmc_arr[0][2] . ' / ' . $mmc_arr[0][1]; ?></b></p>
   </div>
   <br>
   <hr> <br>
 
   <?php
     $response_str = RequestIodExch("usb");
-    $single_space_str = preg_replace('!\s+!', ' ', $response_str);
-    $usbDisk_arr = explode(" ", $single_space_str);                      // vfccbd подключенных usb-дисков
+    $lines_arr = explode("\n", $response_str);
+    for ($i = 0; $i < count($lines_arr) - 1; $i++) {
+      $single_space_str = preg_replace('!\s+!', ' ', $lines_arr[$i]);
+      $usbDisk_arr[$i] = explode(" ", $single_space_str);  // массив подключенных usb-дисков
+    }
     $usb_arr = GetArrayFromShell('ls -la /dev/serial/by-id | grep usb'); // массив usb адаптеров
-    // print_r($usb_arr);
-    if (count($usbDisk_arr) > 1 || count($usb_arr) > 1) {
-      $line1 = '';
-      $line2 = '';
-      if (count($usbDisk_arr) > 1) $line1 = '<p><b>Usb disk ' . $usbDisk_arr[1] . ' ' . $usbDisk_arr[2] . ' ' .  str_replace(',', '', $usbDisk_arr[3]) . '</b></p>';
-      if (count($usb_arr) > 1) $line2 = '<p><b>Device: ' . $usb_arr[8] . '</b></p>';
+    // print_r($usbDisk_arr); echo "<br />";
+    // print_r($usb_arr); echo "<br />";
+    if (count($usbDisk_arr) > 0 || count($usb_arr) > 0) {
+      $line_usbdisk = '';
+      $line_usb = '';
+      for ($i = 0; $i < count($usbDisk_arr); $i++) {
+        if (count($usbDisk_arr) > 0) $line = '<p><b>Usb disk ' . $usbDisk_arr[$i][1] . ' ' . $usbDisk_arr[$i][2] . ' ' .  str_replace(',', '', $usbDisk_arr[$i][3]) . '</b></p>';
+        $line_usbdisk = $line_usbdisk . $line;
+      }
+      for ($i = 0; $i < count($usbDisk_arr); $i++) {
+        if (count($usb_arr) > 0) $line = '<p><b>Device: ' . $usb_arr[$i][8] . '</b></p>';
+        $line_usb = $line_usb . $line;
+      }
       $block = '<div class="DashboardTitle">
       <img src="img/usb_hdd.png" alt="USB"> Usb devices
       </div>
       <div class="DashboardText">
-      ' . $line1 . $line2 . '
+      ' . $line_usbdisk . $line_usb . '
       </div>';
       echo $block;
     }
