@@ -75,7 +75,7 @@
         if (count($usbDisk_arr) > 0) $line = '<p><b>Usb disk ' . $usbDisk_arr[$i][1] . ' ' . $usbDisk_arr[$i][2] . ' ' .  str_replace(',', '', $usbDisk_arr[$i][3]) . '</b></p>';
         $line_usbdisk = $line_usbdisk . $line;
       }
-      for ($i = 0; $i < count($usbDisk_arr); $i++) {
+      for ($i = 0; $i < count($usb_arr); $i++) {
         if (count($usb_arr) > 0) $line = '<p><b>Device: ' . $usb_arr[$i][8] . '</b></p>';
         $line_usb = $line_usb . $line;
       }
